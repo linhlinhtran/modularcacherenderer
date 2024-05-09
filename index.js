@@ -1,17 +1,12 @@
-function rotateRight(head, k) {
-  if (!head || k === 0) return head;
-  let length = 1;
-  let tail = head;
-  while (tail.next) {
-    length++;
-    tail = tail.next;
+function combinationSum4(nums, target) {
+  const dp = new Array(target + 1).fill(0);
+  dp[0] = 1;
+  for (let i = 1; i <= target; i++) {
+    for (const num of nums) {
+      if (i >= num) {
+        dp[i] += dp[i - num];
+      }
+    }
   }
-  k = k % length;
-  if (k === 0) return head;
-  let newTail = head;
-  for (let i = 1; i < length - k; i++) newTail = newTail.next;
-  const newHead = newTail.next;
-  newTail.next = null;
-  tail.next = head;
-  return newHead;
+  return dp[target];
 }
