@@ -1,12 +1,20 @@
-function combinationSum4(nums, target) {
-  const dp = new Array(target + 1).fill(0);
-  dp[0] = 1;
-  for (let i = 1; i <= target; i++) {
-    for (const num of nums) {
-      if (i >= num) {
-        dp[i] += dp[i - num];
-      }
+function multiply(num1, num2) {
+  const m = num1.length;
+  const n = num2.length;
+  const pos = new Array(m + n).fill(0);
+  for (let i = m - 1; i >= 0; i--) {
+    for (let j = n - 1; j >= 0; j--) {
+      const mul = (num1[i] - "0") * (num2[j] - "0");
+      const p1 = i + j;
+      const p2 = i + j + 1;
+      const sum = mul + pos[p2];
+      pos[p1] += Math.floor(sum / 10);
+      pos[p2] = sum % 10;
     }
   }
-  return dp[target];
+  let result = "";
+  for (const p of pos) {
+    if (!(result.length === 0 && p === 0)) result += p;
+  }
+  return result.length === 0 ? "0" : result;
 }
