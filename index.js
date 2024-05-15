@@ -1,16 +1,12 @@
-function numDecodings(s) {
-  const dp = new Array(s.length + 1).fill(0);
-  dp[0] = 1;
-  dp[1] = s[0] === "0" ? 0 : 1;
-  for (let i = 2; i <= s.length; i++) {
-    const oneDigit = parseInt(s.substring(i - 1, i));
-    const twoDigits = parseInt(s.substring(i - 2, i));
-    if (oneDigit >= 1) {
-      dp[i] += dp[i - 1];
-    }
-    if (twoDigits >= 10 && twoDigits <= 26) {
-      dp[i] += dp[i - 2];
+function maxEnvelopes(envelopes) {
+  envelopes.sort((a, b) => a[0] - b[0] || b[1] - a[1]);
+  const dp = new Array(envelopes.length).fill(1);
+  for (let i = 0; i < envelopes.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (envelopes[i][1] > envelopes[j][1]) {
+        dp[i] = Math.max(dp[i], dp[j] + 1);
+      }
     }
   }
-  return dp[s.length];
+  return Math.max(...dp);
 }
